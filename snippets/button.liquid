@@ -1,0 +1,37 @@
+{% comment %}
+  Renders a button.
+  Usage:
+    {% render 'button', text: 'Add to cart', variant: 'primary', size: 'medium', full: true %}
+  Parameters:
+    - text: string (required)
+    - variant: 'primary' | 'secondary' | 'tertiary' (default: 'primary')
+    - size: 'small' | 'medium' | 'large' (default: 'medium')
+    - full: boolean (default: false)
+    - type: 'button' | 'submit' | 'link' (default: 'button')
+    - url: string (for link variant)
+    - icon: string (icon name)
+    - disabled: boolean (default: false)
+    - classes: string (additional classes)
+{% endcomment %}
+
+{%- assign _variant = variant | default: 'primary' -%}
+{%- assign _size = size | default: 'medium' -%}
+{%- assign _type = type | default: 'button' -%}
+
+{%- capture _classes -%}
+  btn btn--{{ _variant }} btn--{{ _size }}
+  {%- if full %} btn--full{% endif -%}
+  {%- if classes %} {{ classes }}{% endif -%}
+{%- endcapture -%}
+
+{%- if _type == 'link' and url -%}
+  <a href="{{ url }}" class="{{ _classes | strip_newlines }}" {% if disabled %}aria-disabled="true"{% endif %}>
+    {%- if icon -%}{%- render 'icon-' | append: icon -%}{%- endif -%}
+    <span>{{ text }}</span>
+  </a>
+{%- else -%}
+  <button type="{{ _type }}" class="{{ _classes | strip_newlines }}" {% if disabled %}disabled{% endif %}>
+    {%- if icon -%}{%- render 'icon-' | append: icon -%}{%- endif -%}
+    <span>{{ text }}</span>
+  </button>
+{%- endif -%}

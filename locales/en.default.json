@@ -1,0 +1,140 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Skip to main content"
+    },
+    "close": "Close",
+    "home": "Home",
+    "breadcrumb": "Breadcrumb",
+    "pagination": "Pagination",
+    "previous_page": "Previous page",
+    "next_page": "Next page",
+    "search": "Search",
+    "quantity": "Quantity",
+    "increase_quantity": "Increase quantity",
+    "decrease_quantity": "Decrease quantity",
+    "newsletter": {
+      "placeholder": "Enter your email",
+      "subscribe": "Subscribe",
+      "success": "Thanks for subscribing!",
+      "email": "Email address"
+    },
+    "social_links": "Social media links"
+  },
+  "products": {
+    "product": {
+      "sale": "Sale",
+      "sold_out": "Sold out",
+      "price_from": "From {{ price }}",
+      "quick_add": "Quick add",
+      "add_to_cart": "Add to cart",
+      "quantity": "Quantity",
+      "sku": "SKU",
+      "pickup_available": "Available for pickup",
+      "share": "Share",
+      "media": {
+        "gallery": "Product image gallery",
+        "thumbnails": "Thumbnails",
+        "view_image": "View image {{ index }}",
+        "zoom": "Zoom image"
+      }
+    }
+  },
+  "collections": {
+    "general": {
+      "no_products": "No products found"
+    },
+    "filters": {
+      "filter": "Filter",
+      "label": "Filters",
+      "results": "results",
+      "availability": "Availability",
+      "in_stock": "In stock",
+      "price": "Price"
+    },
+    "sorting": {
+      "label": "Sort by",
+      "manual": "Featured",
+      "best_selling": "Best selling",
+      "title_asc": "Alphabetically, A-Z",
+      "title_desc": "Alphabetically, Z-A",
+      "price_asc": "Price, low to high",
+      "price_desc": "Price, high to low",
+      "newest": "Date, new to old",
+      "oldest": "Date, old to new"
+    }
+  },
+  "cart": {
+    "note": "Order notes",
+    "update": "Update cart",
+    "checkout": "Check out",
+    "empty": "Your cart is empty",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "taxes_incl": "Taxes included"
+  },
+  "search": {
+    "placeholder": "Search...",
+    "results": "results found",
+    "no_results": "No results found"
+  },
+  "sections": {
+    "header": {
+      "menu": "Menu",
+      "search": "Search",
+      "account": "Account",
+      "cart": "Cart",
+      "navigation": "Main navigation",
+      "mobile_menu": "Mobile menu",
+      "mobile_navigation": "Mobile navigation",
+      "close_menu": "Close menu"
+    },
+    "featured_collection": {
+      "empty": "Please select a collection"
+    }
+  },
+  "templates": {
+    "404": {
+      "title": "Page not found",
+      "description": "The page you're looking for doesn't exist or has been moved.",
+      "back_home": "Back to home"
+    },
+    "password": {
+      "title": "Opening soon",
+      "enter_password": "Enter store using password"
+    }
+  },
+  "contact": {
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message",
+      "send": "Send message",
+      "success": "Thanks for your message! We'll get back to you soon.",
+      "error": "Please correct the following errors:"
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "Account",
+      "logout": "Log out"
+    },
+    "login": {
+      "title": "Log in",
+      "email": "Email address",
+      "password": "Password",
+      "submit": "Sign in",
+      "forgot_password": "Forgot your password?",
+      "create_account": "Create account"
+    },
+    "register": {
+      "title": "Create account",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create"
+    }
+  }
+}

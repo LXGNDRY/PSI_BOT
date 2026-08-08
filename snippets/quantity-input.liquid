@@ -1,0 +1,43 @@
+{% comment %}
+  Renders a quantity selector with +/- buttons.
+  Usage:
+    {% render 'quantity-input', id: 'quantity', value: 1, min: 1, max: 10, name: 'quantity' %}
+{% endcomment %}
+
+{%- assign _id = id | default: 'quantity' -%}
+{%- assign _value = value | default: 1 -%}
+{%- assign _min = min | default: 1 -%}
+{%- assign _max = max | default: 999999 -%}
+{%- assign _name = name | default: 'quantity' -%}
+
+<div class="quantity-input" data-quantity-input>
+  <button
+    type="button"
+    class="quantity-input__btn quantity-input__btn--decrease"
+    aria-label="{{ 'general.decrease_quantity' | t }}"
+    data-action="decrease"
+    {% if _value <= _min %}disabled{% endif %}
+  >
+    {%- render 'icon-minus' -%}
+  </button>
+  <input
+    type="number"
+    id="{{ _id }}"
+    name="{{ _name }}"
+    class="quantity-input__value"
+    value="{{ _value }}"
+    min="{{ _min }}"
+    max="{{ _max }}"
+    step="1"
+    aria-label="{{ 'general.quantity' | t }}"
+  >
+  <button
+    type="button"
+    class="quantity-input__btn quantity-input__btn--increase"
+    aria-label="{{ 'general.increase_quantity' | t }}"
+    data-action="increase"
+    {% if _value >= _max %}disabled{% endif %}
+  >
+    {%- render 'icon-plus' -%}
+  </button>
+</div>

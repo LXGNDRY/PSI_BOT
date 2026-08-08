@@ -1,0 +1,128 @@
+{% schema %}
+{
+  "name": "Wearix marquee",
+  "tag": "section",
+  "class": "wearix-marquee",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Marquee text",
+      "default": "NEW DROP  \u2022  FREE SHIPPING OVER $100  \u2022  PREMIUM QUALITY  \u2022  "
+    },
+    {
+      "type": "checkbox",
+      "id": "repeat",
+      "label": "Repeat text",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "repeat_count",
+      "label": "Repeat count",
+      "default": 6,
+      "min": 2,
+      "max": 12,
+      "step": 1
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "checkbox",
+      "id": "invert",
+      "label": "Dark background",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Speed",
+      "default": 25,
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "s"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wearix marquee",
+      "settings": {
+        "text": "NEW DROP  \u2022  FREE SHIPPING OVER $100  \u2022  PREMIUM QUALITY  \u2022  ",
+        "repeat": true,
+        "repeat_count": 6,
+        "invert": false,
+        "speed": 25
+      },
+      "blocks": []
+    },
+    {
+      "name": "Dark marquee",
+      "settings": {
+        "text": "WEARIX  \u2022  PREMIUM WEAR  \u2022  MODERN LIVING  \u2022  ",
+        "invert": true,
+        "repeat": true,
+        "repeat_count": 6,
+        "speed": 30
+      },
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+.wearix-marquee {
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 20px 0;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    background: #fff;
+}
+
+.wearix-marquee--invert {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+.wearix-marquee__track {
+    display: inline-flex;
+    align-items: center;
+    animation: marquee-scroll 25s linear infinite;
+    will-change: transform;
+}
+
+.wearix-marquee__item {
+    display: inline-block;
+    padding: 0 24px;
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+}
+
+@keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wearix-marquee__track {
+        animation: none;
+    }
+}
+{% endstylesheet %}
+
+<div class="wearix-marquee">
+  <div class="wearix-marquee__track" style="animation-duration: 25s">
+    <span class="wearix-marquee__item">{{ section.settings.text | escape }}</span><span class="wearix-marquee__item">{{ section.settings.text | escape }}</span><span class="wearix-marquee__item">{{ section.settings.text | escape }}</span><span class="wearix-marquee__item">{{ section.settings.text | escape }}</span><span class="wearix-marquee__item">{{ section.settings.text | escape }}</span><span class="wearix-marquee__item">{{ section.settings.text | escape }}</span>
+  </div>
+</div>

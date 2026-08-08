@@ -1,0 +1,209 @@
+{% schema %}
+{
+  "name": "Announcement bar",
+  "tag": "section",
+  "class": "announcement-bar",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "message",
+      "label": "Message",
+      "default": "Free shipping on orders over $100"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_link",
+      "label": "Enable link",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link text",
+      "default": "Learn more"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_close",
+      "label": "Allow customers to close",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "Auto-rotate messages",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement bar",
+      "settings": {
+        "message": "Free shipping on orders over $100",
+        "text_alignment": "center",
+        "background_color": "#111111",
+        "text_color": "#ffffff",
+        "enable_close": true
+      },
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+.announcement-bar {
+  font-size: 0.8125rem;
+  padding: 0.5rem 1.5rem;
+  position: relative;
+}
+
+.announcement-bar[hidden] {
+  display: none;
+}
+
+.announcement-bar__inner {
+  max-width: var(--max-width, 1440px);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.announcement-bar__message {
+  margin: 0;
+}
+
+.announcement-bar__link {
+  text-decoration: underline;
+  margin-left: 0.5rem;
+  font-weight: 500;
+}
+
+.announcement-bar__close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.announcement-bar__close:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+{% endstylesheet %}
+
+{% javascript %}
+// Announcement bar close behavior
+(function() {
+  const bar = document.querySelector('[data-announcement-bar]');
+  if (!bar) return;
+
+  const closeBtn = bar.querySelector('[data-action="close"]');
+  if (!closeBtn) return;
+
+  const storageKey = 'announcement_bar_closed_' + {{ section.id | json }};
+
+  if (localStorage.getItem(storageKey) === 'true') {
+    bar.setAttribute('hidden', '');
+    return;
+  }
+
+  closeBtn.addEventListener('click', () => {
+    bar.setAttribute('hidden', '');
+    localStorage.setItem(storageKey, 'true');
+  });
+})();
+{% endjavascript %}
+
+{%- comment -%} Announcement bar section {%- endcomment -%}
+{%- if section.settings.message != '' -%}
+  <div
+    class="announcement-bar"
+    {{ section.shopify_attributes }}
+    style="background: {{ section.settings.background_color }}; color: {{ section.settings.text_color }}; text-align: {{ section.settings.text_alignment }};"
+    data-announcement-bar
+  >
+    <div class="announcement-bar__inner">
+      <p class="announcement-bar__message">
+        {{ section.settings.message }}
+        {%- if section.settings.enable_link and section.settings.link_url -%}
+          <a href="{{ section.settings.link_url }}" class="announcement-bar__link" style="color: inherit;">
+            {{ section.settings.link_text }}
+          </a>
+        {%- endif -%}
+      </p>
+      {%- if section.settings.enable_close -%}
+        <button
+          type="button"
+          class="announcement-bar__close"
+          aria-label="{{ 'general.close' | t }}"
+          data-action="close"
+          style="color: inherit;"
+        >
+          {%- render 'icon-close' -%}
+        </button>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}

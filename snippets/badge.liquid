@@ -1,0 +1,13 @@
+{% comment %}
+  Renders a badge.
+  Usage:
+    {% render 'badge', text: 'Sale', type: 'sale', position: 'top-left' %}
+{% endcomment %}
+
+{%- assign _text = text | default: '' -%}
+{%- assign _type = type | default: 'custom' -%}
+{%- assign _position = position | default: 'top-left' -%}
+
+{%- if _text != '' -%}
+  <span class="badge badge--{{ _type }} badge--{{ _position }}">{{ _text }}</span>
+{%- endif -%}

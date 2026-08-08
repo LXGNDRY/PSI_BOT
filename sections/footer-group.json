@@ -1,0 +1,13 @@
+{
+  "type": "footer-group",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "wearix-footer",
+      "settings": {}
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

@@ -1,0 +1,113 @@
+{% comment %}
+  Renders a product card.
+  Usage:
+    {% render 'card-product', product: product, show_vendor: true, show_price: true, image_ratio: '4/5' %}
+  Parameters:
+    - product: product object (required)
+    - show_vendor: boolean (default: false)
+    - show_price: boolean (default: true)
+    - show_rating: boolean (default: false)
+    - show_quick_add: boolean (default: false)
+    - image_ratio: 'adapt' | 'square' | 'portrait' | 'landscape' | 'widescreen' (default: 'adapt')
+    - badge_position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' (default: 'top-left')
+    - secondary_image: boolean (default: false)
+    - grid_columns: number (default: 4) — used for image sizing
+    - full_width: boolean (default: false)
+{% endcomment %}
+
+{%- assign _product = product -%}
+{%- assign _show_vendor = show_vendor | default: false -%}
+{%- assign _show_price = show_price | default: true -%}
+{%- assign _show_rating = show_rating | default: false -%}
+{%- assign _show_quick_add = show_quick_add | default: false -%}
+{%- assign _image_ratio = image_ratio | default: 'adapt' -%}
+{%- assign _badge_pos = badge_position | default: 'top-left' -%}
+{%- assign _secondary_image = secondary_image | default: false -%}
+{%- assign _grid_cols = grid_columns | default: 4 -%}
+
+{%- assign _featured_image = _product.featured_image -%}
+{%- assign _ratio_style = '' -%}
+{%- if _image_ratio == 'adapt' and _featured_image -%}
+  {%- assign _ratio_style = _featured_image.aspect_ratio | default: '1' -%}
+  {%- assign _ratio_style = '--card-ratio: ' | append: _ratio_style -%}
+{%- elsif _image_ratio == 'square' -%}
+  {%- assign _ratio_style = '--card-ratio: 1/1' -%}
+{%- elsif _image_ratio == 'portrait' -%}
+  {%- assign _ratio_style = '--card-ratio: 4/5' -%}
+{%- elsif _image_ratio == 'landscape' -%}
+  {%- assign _ratio_style = '--card-ratio: 3/2' -%}
+{%- elsif _image_ratio == 'widescreen' -%}
+  {%- assign _ratio_style = '--card-ratio: 16/9' -%}
+{%- endif -%}
+
+{%- assign _on_sale = false -%}
+{%- if _product.compare_at_price_min > _product.price_min -%}
+  {%- assign _on_sale = true -%}
+{%- endif -%}
+
+<div class="c-card" style="{{ _ratio_style }}">
+  <a href="{{ _product.url }}" class="c-card__link" aria-label="{{ _product.title | escape }}">
+    <div class="c-card__media">
+      <div class="c-card__badge-wrap">
+        {%- if _on_sale -%}
+          {%- render 'badge', text: 'products.product.sale' | t, type: 'sale', position: _badge_pos -%}
+        {%- endif -%}
+        {%- unless _product.available -%}
+          {%- render 'badge', text: 'products.product.sold_out' | t, type: 'sold-out', position: _badge_pos -%}
+        {%- endunless -%}
+      </div>
+
+      {%- if _featured_image -%}
+        {{ _featured_image | image_url: width: 600 | image_tag:
+          alt: _featured_image.alt | default: _product.title | escape,
+          sizes: '
+            (min-width: 1280px) ' | append: _grid_cols | append: 'fr,
+            (min-width: 768px) 33vw,
+            50vw
+          ',
+          loading: 'lazy',
+          decoding: 'async'
+        }}
+      {%- else -%}
+        <div class="c-card__media-placeholder" aria-hidden="true"></div>
+      {%- endif -%}
+
+      {%- if _secondary_image and _product.images.size > 1 -%}
+        <div class="c-card__media-secondary">
+          {{ _product.images[1] | image_url: width: 600 | image_tag:
+            alt: _product.images[1].alt | default: _product.title | escape,
+            loading: 'lazy',
+            decoding: 'async'
+          }}
+        </div>
+      {%- endif -%}
+    </div>
+  </a>
+
+  <div class="c-card__info">
+    {%- if _show_vendor and _product.vendor -%}
+      <p class="c-card__vendor">{{ _product.vendor }}</p>
+    {%- endif -%}
+
+    <h3 class="c-card__title">
+      <a href="{{ _product.url }}">{{ _product.title }}</a>
+    </h3>
+
+    {%- if _show_price -%}
+      <div class="c-card__price">
+        {%- render 'price', product: _product, show_badge: false, size: 'small' -%}
+      </div>
+    {%- endif -%}
+
+    {%- if _show_quick_add and _product.available and _product.variants.size == 1 -%}
+      <div class="c-card__quick-add">
+        {%- form 'product', _product, id: 'QuickAdd-' | append: _product.id -%}
+          <input type="hidden" name="id" value="{{ _product.selected_or_first_available_variant.id }}">
+          <button type="submit" class="btn btn--secondary btn--small btn--full">
+            {{ 'products.product.quick_add' | t }}
+          </button>
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>

@@ -1,0 +1,17 @@
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25em;
+  height: 1.25em;
+  vertical-align: middle;
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 0;
+}
+
+.icon--small { width: 1em; height: 1em; }
+.icon--large { width: 1.5em; height: 1.5em; }
+.icon--xlarge { width: 2em; height: 2em; }
+

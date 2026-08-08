@@ -1,0 +1,46 @@
+{
+  "current": "Wearix Light",
+  "presets": {
+    "Wearix Light": {
+      "settings": {
+        "colors": {
+          "primary": "#000000",
+          "secondary": "#F7F7F7",
+          "accent": "#000000",
+          "background": "#FFFFFF",
+          "surface": "#F7F7F7",
+          "text": "#000000",
+          "text_muted": "#707070",
+          "border": "#E5E5E5"
+        },
+        "heading_font": "inter_n5",
+        "body_font": "inter_n4",
+        "base_font_size": 16,
+        "heading_scale": 1.2,
+        "body_line_height": 1.5,
+        "max_width": 1440,
+        "grid_gap": 24,
+        "section_padding": 120,
+        "cart_type": "drawer",
+        "predictive_search": true,
+        "show_search_images": true,
+        "show_search_prices": true,
+        "show_vendor": false,
+        "recently_viewed": false
+      },
+      "sections": {
+        "header-group": {
+          "type": "header-group",
+          "settings": {},
+          "blocks": {}
+        },
+        "footer-group": {
+          "type": "footer-group",
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "content_for_index": []
+    }
+  }
+}

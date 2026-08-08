@@ -1,0 +1,49 @@
+{% comment %}
+  Renders product price with compare-at, sale badge, and unit pricing.
+  Usage:
+    {% render 'price', product: product, show_badge: true, size: 'medium' %}
+  Parameters:
+    - product: product object (required)
+    - variant: variant object (optional, defaults to product.selected_or_first_available_variant)
+    - show_badge: boolean (default: true)
+    - size: 'small' | 'medium' | 'large' (default: 'medium')
+    - show_unit_price: boolean (default: true)
+{% endcomment %}
+
+{%- assign _product = product -%}
+{%- assign _variant = variant | default: _product.selected_or_first_available_variant -%}
+{%- assign _show_badge = show_badge | default: true -%}
+{%- assign _size = size | default: 'medium' -%}
+{%- assign _show_unit = show_unit_price | default: true -%}
+{%- assign _on_sale = false -%}
+
+{%- if _variant.compare_at_price > _variant.price -%}
+  {%- assign _on_sale = true -%}
+{%- endif -%}
+
+<div class="price price--{{ _size }}{% if _on_sale %} price--on-sale{% endif %}" data-price>
+  {%- if _show_badge and _on_sale -%}
+    <span class="price__badge">{{ 'products.product.sale' | t }}</span>
+  {%- endif -%}
+
+  <div class="price__row">
+    <span class="price__regular">{{ _variant.price | money }}</span>
+    {%- if _on_sale -%}
+      <span class="price__compare">{{ _variant.compare_at_price | money }}</span>
+    {%- endif -%}
+  </div>
+
+  {%- if _product.price_varies -%}
+    <span class="price__range-text price--small">
+      {{ 'products.product.price_from' | t: price: _product.price_min | money }}
+    </span>
+  {%- endif -%}
+
+  {%- if _show_unit and _variant.unit_price_measurement -%}
+    <p class="price__unit">
+      {{ _variant.unit_price | money }}
+      {{ _variant.unit_price_measurement.reference_value }}
+      {{ _variant.unit_price_measurement.reference_unit }}
+    </p>
+  {%- endif -%}
+</div>

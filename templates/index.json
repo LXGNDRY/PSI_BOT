@@ -1,0 +1,66 @@
+{
+  "sections": {
+    "hero": {
+      "type": "wearix-hero",
+      "settings": {}
+    },
+    "marquee": {
+      "type": "wearix-marquee",
+      "settings": {}
+    },
+    "new-arrivals": {
+      "type": "featured-collection",
+      "settings": {}
+    },
+    "brand-story": {
+      "type": "wearix-image-with-text",
+      "settings": {}
+    },
+    "best-sellers": {
+      "type": "featured-collection",
+      "settings": {}
+    },
+    "collection-showcase": {
+      "type": "wearix-collection-showcase",
+      "settings": {}
+    },
+    "testimonials": {
+      "type": "wearix-testimonials",
+      "settings": {}
+    },
+    "logo-bar": {
+      "type": "wearix-logo-bar",
+      "settings": {}
+    },
+    "features": {
+      "type": "wearix-features-grid",
+      "settings": {}
+    },
+    "blog": {
+      "type": "wearix-blog",
+      "settings": {}
+    },
+    "instagram": {
+      "type": "wearix-instagram",
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "wearix-newsletter",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "marquee",
+    "new-arrivals",
+    "brand-story",
+    "best-sellers",
+    "collection-showcase",
+    "testimonials",
+    "logo-bar",
+    "features",
+    "blog",
+    "instagram",
+    "newsletter"
+  ]
+}

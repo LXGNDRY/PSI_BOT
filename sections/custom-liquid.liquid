@@ -1,0 +1,40 @@
+{% schema %}
+{
+  "name": "Custom Liquid",
+  "tag": "section",
+  "class": "custom-liquid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Custom Liquid"
+    },
+    {
+      "type": "liquid",
+      "id": "code",
+      "label": "Liquid code",
+      "default": ""
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Liquid",
+      "settings": {
+        "code": ""
+      },
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+.custom-liquid {
+  padding: 2rem 0;
+}
+{% endstylesheet %}
+
+<section class="custom-liquid" {{ section.shopify_attributes }}>
+  <div class="page-width">
+    {{ section.settings.code }}
+  </div>
+</section>

@@ -1,0 +1,116 @@
+
+.c-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: var(--font-body-family);
+}
+
+.c-card__media {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface, #f9f9f9);
+  aspect-ratio: var(--card-ratio, 4/5);
+}
+
+.c-card__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.c-card:hover .c-card__media img {
+  transform: scale(1.03);
+}
+
+.c-card__media-secondary {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.c-card:hover .c-card__media-secondary {
+  opacity: 1;
+}
+
+.c-card__badge-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.c-card__info {
+  padding: 1rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.c-card__vendor {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.c-card__title {
+  font-family: var(--font-heading-family, inherit);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.c-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.c-card__title a:hover {
+  text-decoration: underline;
+}
+
+.c-card__price {
+  margin-top: auto;
+  padding-top: 0.25rem;
+}
+
+.c-card__quick-add {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  right: 0.75rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.c-card:hover .c-card__quick-add {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 767px) {
+  .c-card__quick-add {
+    opacity: 1;
+    transform: none;
+    position: static;
+    margin-top: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-card__media img { transition: none; }
+  .c-card__media-secondary { transition: none; }
+  .c-card__quick-add { transition: none; }
+}
+
