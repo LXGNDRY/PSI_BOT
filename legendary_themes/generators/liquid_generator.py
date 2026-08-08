@@ -18,51 +18,56 @@ class LayoutGenerator:
     def generate(self) -> str:
         m = self.manifest
         preset = m.presets[m.default_preset]
+        theme_color = preset.palette.primary
 
-        return f"""<!doctype html>
-<html class="no-js" lang="{{{{ request.locale.iso_code }}}}" dir="{{{{ request.locale.is_rtl | default: false | replace: 'true', 'rtl' | replace: 'false', 'ltr' }}}}">
+        return """<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}" dir="{{ request.locale.is_rtl | default: false | replace: 'true', 'rtl' | replace: 'false', 'ltr' }}">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="{preset.palette.primary}">
+  <meta name="theme-color" content="__THEME_COLOR__">
 
-  <title>{{{{ page_title }}}}</title>
-  <meta name="description" content="{{{{ page_description | truncate: 160 }}}}">
-  <link rel="canonical" href="{{{{ canonical_url }}}}">
+  <title>{{ page_title }}</title>
+  <meta name="description" content="{{ page_description | truncate: 160 }}">
+  <link rel="canonical" href="{{ canonical_url }}">
 
-  {{{{ content_for_header }}}}
+  {{ content_for_header }}
 
-  <meta property="og:title" content="{{{{ page_title }}}}">
-  <meta property="og:description" content="{{{{ page_description | truncate: 160 }}}}">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ page_description | truncate: 160 }}">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="{{{{ canonical_url }}}}">
-  <meta property="og:image" content="{{{{ page_image | image_url: width: 1200 }}}}">
-  <meta property="og:site_name" content="{{{{ shop.name }}}}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:image" content="{{ page_image | image_url: width: 1200 }}">
+  <meta property="og:site_name" content="{{ shop.name }}">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   <link rel="preconnect" href="https://shopify.dev" crossorigin>
 
-  {{{{ settings.heading_font | font_face: font_display: 'swap' }}}}
-  {{{{ settings.body_font | font_face: font_display: 'swap' }}}}
+  {{ settings.heading_font | font_face: font_display: 'swap' }}
+  {{ settings.body_font | font_face: font_display: 'swap' }}
 
-  <link rel="stylesheet" href="{{{{ 'base.css' | asset_url }}}}">
-  <link rel="stylesheet" href="{{{{ 'component-card.css' | asset_url }}}}">
-  <link rel="stylesheet" href="{{{{ 'component-button.css' | asset_url }}}}">
+  <link rel="stylesheet" href="{{ 'base.css' | asset_url }}">
 
   <script>
     document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
   </script>
 </head>
-<body class="template--{{{{ template.name }}}} template--{{{{ template.suffix | default: 'default' }}}}">
+<body class="template--{{ template.name }} template--{{ template.suffix | default: 'default' }}">
   <a class="skip-link visually-hidden" href="#MainContent">
-    {{{{ 'general.accessibility.skip_to_content' | t }}}}
+    {{ 'general.accessibility.skip_to_content' | t }}
   </a>
 
-  {{{{ content_for_layout }}}}
+  {% section 'header-group' %}
 
-  <script src="{{{{ 'global.js' | asset_url }}}}" defer></script>
+  <main id="MainContent" class="main-content">
+    {{ content_for_layout }}
+  </main>
+
+  {% section 'footer-group' %}
+
+  <script src="{{ 'global.js' | asset_url }}" defer></script>
 </body>
 </html>
-"""
+""".replace("__THEME_COLOR__", theme_color)

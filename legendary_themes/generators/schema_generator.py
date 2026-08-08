@@ -305,7 +305,18 @@ class SchemaGenerator:
                     "show_vendor": m.product.show_vendor,
                     "recently_viewed": m.features.recently_viewed,
                 },
-                "sections": {},
+                "sections": {
+                    "header-group": {
+                        "type": "header-group",
+                        "settings": {},
+                        "blocks": {},
+                    },
+                    "footer-group": {
+                        "type": "footer-group",
+                        "settings": {},
+                        "blocks": {},
+                    },
+                },
                 "content_for_index": [],
             }
 

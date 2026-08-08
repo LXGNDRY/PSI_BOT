@@ -114,3 +114,45 @@ accessibility:
   screen_reader_text: true
   form_labels: true
   error_announcements: true
+
+# Section group overrides — use Wearix-specific header/footer
+header_section_type: "wearix-header"
+footer_section_type: "wearix-footer"
+
+header_group_sections:
+  - id: "announcement-bar"
+    type: "announcement-bar"
+  - id: "header"
+    type: "wearix-header"
+
+footer_group_sections:
+  - id: "footer"
+    type: "wearix-footer"
+
+# Per-template section configuration
+sections:
+  index:
+    - id: "hero"
+      type: "wearix-hero"
+    - id: "marquee"
+      type: "wearix-marquee"
+    - id: "new-arrivals"
+      type: "featured-collection"
+    - id: "brand-story"
+      type: "wearix-image-with-text"
+    - id: "best-sellers"
+      type: "featured-collection"
+    - id: "collection-showcase"
+      type: "wearix-collection-showcase"
+    - id: "testimonials"
+      type: "wearix-testimonials"
+    - id: "logo-bar"
+      type: "wearix-logo-bar"
+    - id: "features"
+      type: "wearix-features-grid"
+    - id: "blog"
+      type: "wearix-blog"
+    - id: "instagram"
+      type: "wearix-instagram"
+    - id: "newsletter"
+      type: "wearix-newsletter"

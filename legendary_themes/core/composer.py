@@ -96,8 +96,32 @@ class ThemeComposer:
         self.files["layout/theme.liquid"] = content
 
     def _generate_templates(self) -> None:
-        """Generate all JSON templates."""
-        for name, template in TemplateRegistry.all().items():
+        """Generate all JSON templates.
+
+        If the manifest has section configurations for specific templates,
+        those override the default template compositions.
+        """
+        # Build a set of templates from the registry (defaults)
+        templates = dict(TemplateRegistry.all())
+
+        # Check if manifest has sections config to override templates
+        if hasattr(self.manifest, 'sections') and self.manifest.sections:
+            for template_name, section_list in self.manifest.sections.items():
+                from .template import Template, TemplateSection
+                sections = []
+                for s in section_list:
+                    section_dict = s if isinstance(s, dict) else s.__dict__
+                    sections.append(TemplateSection(
+                        id=section_dict.get('id', section_dict.get('type', '')),
+                        type=section_dict.get('type', ''),
+                        settings=section_dict.get('settings', {}),
+                    ))
+                templates[template_name] = Template(
+                    name=template_name,
+                    sections=sections,
+                )
+
+        for name, template in templates.items():
             self.files[template.filename] = template.to_json()
 
         # Gift card template (only required .liquid template)

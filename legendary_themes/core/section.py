@@ -103,7 +103,7 @@ class Section:
     def render_liquid(cls, manifest: Optional["ThemeManifest"] = None) -> str:
         """Render the full .liquid file for this section."""
         if cls.is_group:
-            return cls._render_group_json()
+            return cls._render_group_json(manifest)
 
         lines = []
         # Schema tag
@@ -132,6 +132,16 @@ class Section:
         if cls.template:
             lines.append(cls.template.strip())
             lines.append("")
+        elif hasattr(cls, 'render'):
+            # If class has a render method, call it with empty settings/blocks
+            # to get the base template (settings/blocks are Liquid variables anyway)
+            try:
+                markup = cls.render(cls, {}, [])
+                if markup:
+                    lines.append(markup.strip())
+                    lines.append("")
+            except Exception:
+                pass
 
         return "\n".join(lines)
 

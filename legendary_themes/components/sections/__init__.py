@@ -2,6 +2,7 @@
 
 from . import (
     header, footer, announcement_bar,
+    header_group, footer_group,
     main_product, main_collection_product_grid,
     image_banner, rich_text, featured_collection,
     custom_liquid, product_recommendations,

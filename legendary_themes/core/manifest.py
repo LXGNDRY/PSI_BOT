@@ -161,6 +161,16 @@ class ThemeManifest(BaseModel):
     # Additional sections to include
     extra_sections: List[str] = Field(default_factory=list)
 
+    # Per-template section configuration
+    # Format: {"index": [{"type": "weareix-hero", "id": "hero", "settings": {...}}, ...]}
+    sections: Optional[Dict[str, Any]] = None
+
+    # Section group overrides
+    header_section_type: str = "header"
+    footer_section_type: str = "footer"
+    header_group_sections: List[Dict[str, Any]] = Field(default_factory=list)
+    footer_group_sections: List[Dict[str, Any]] = Field(default_factory=list)
+
     @field_validator("presets")
     @classmethod
     def presets_have_unique_names(cls, v: List[ThemePreset]) -> List[ThemePreset]:
