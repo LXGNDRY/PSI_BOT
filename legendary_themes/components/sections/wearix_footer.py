@@ -1,0 +1,311 @@
+"""
+Wearix Footer Section — minimalist black footer with giant logo and 4 link columns.
+
+Wearix pattern:
+- Full black background
+- 4 columns: Company, Quick Links, Follow Us, Get in touch
+- Massive "WEARIX" wordmark at the bottom
+- Copyright bar at the very bottom
+- Minimal, high-contrast, editorial feel
+"""
+from __future__ import annotations
+
+from ...core.section import Section, SectionPreset, SectionRegistry
+from ...core.setting import (
+    Text, LinkList, Checkbox, Header, ImagePicker, Color,
+)
+
+
+class WearixFooterSection(Section):
+    type = "wearix-footer"
+    name = "Wearix footer"
+    tag = "footer"
+    class_name = "wearix-footer"
+    limit = 1
+    available_on = []  # Used in footer section group
+
+    settings = [
+        Header("Logo"),
+        Text("logo_text", label="Logo text (for wordmark)", default="WEARIX"),
+        ImagePicker("logo_image", label="Logo image (optional)"),
+
+        Header("Columns"),
+        LinkList("menu_1", label="Column 1 menu", default="footer-1"),
+        Text("column_1_title", label="Column 1 title", default="Company"),
+        LinkList("menu_2", label="Column 2 menu", default="footer-2"),
+        Text("column_2_title", label="Column 2 title", default="Quick links"),
+        LinkList("menu_3", label="Column 3 menu", default="footer-3"),
+        Text("column_3_title", label="Column 3 title", default="Follow us"),
+        LinkList("menu_4", label="Column 4 menu", default="footer-4"),
+        Text("column_4_title", label="Column 4 title", default="Get in touch"),
+
+        Header("Newsletter"),
+        Checkbox("show_newsletter", label="Show newsletter signup", default=True),
+        Text("newsletter_heading", label="Newsletter heading", default="Stay in the loop"),
+        Text("newsletter_placeholder", label="Email placeholder", default="Your email address"),
+
+        Header("Giant Logo"),
+        Checkbox("show_giant_logo", label="Show giant wordmark", default=True),
+        Text("giant_logo_text", label="Giant logo text", default="WEARIX"),
+
+        Header("Bottom Bar"),
+        Checkbox("show_payment_icons", label="Show payment icons", default=True),
+        Text("copyright", label="Copyright text", default="© 2026 Wearix. All rights reserved."),
+    ]
+
+    blocks = []
+
+    presets = [
+        SectionPreset(
+            name="Wearix footer",
+            settings={
+                "logo_text": "WEARIX",
+                "column_1_title": "Company",
+                "column_2_title": "Quick links",
+                "column_3_title": "Follow us",
+                "column_4_title": "Get in touch",
+                "show_newsletter": True,
+                "show_giant_logo": True,
+                "giant_logo_text": "WEARIX",
+            },
+            blocks=[],
+        ),
+    ]
+
+    styles = """
+.wearix-footer {
+    background: #000;
+    color: #fff;
+    padding: 80px 24px 0 24px;
+}
+
+.wearix-footer__top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto 64px auto;
+    padding-bottom: 64px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wearix-footer__logo-col {
+    max-width: 300px;
+}
+
+.wearix-footer__logo {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px 0;
+    text-decoration: none;
+    color: #fff;
+    display: block;
+}
+
+.wearix-footer__logo img {
+    max-height: 40px;
+    width: auto;
+}
+
+.wearix-footer__desc {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.wearix-footer__column-title {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0 0 20px 0;
+}
+
+.wearix-footer__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.wearix-footer__list li {
+    margin-bottom: 12px;
+}
+
+.wearix-footer__list a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    transition: opacity 0.2s ease;
+}
+
+.wearix-footer__list a:hover {
+    opacity: 0.6;
+}
+
+.wearix-footer__giant-logo {
+    text-align: center;
+    font-size: clamp(4rem, 15vw, 14rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: rgba(255, 255, 255, 0.08);
+    line-height: 0.8;
+    margin: 0 0 40px 0;
+    user-select: none;
+    text-transform: uppercase;
+}
+
+.wearix-footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 1400px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.wearix-footer__copyright {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.wearix-footer__payments {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.wearix-footer__payment-icon {
+    width: 40px;
+    height: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 900px) {
+    .wearix-footer {
+        padding: 60px 24px 0 24px;
+    }
+    .wearix-footer__top {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px 32px;
+        margin-bottom: 48px;
+        padding-bottom: 48px;
+    }
+    .wearix-footer__logo-col {
+        grid-column: span 2;
+        max-width: none;
+    }
+    .wearix-footer__giant-logo {
+        margin-bottom: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .wearix-footer {
+        padding: 48px 20px 0 20px;
+    }
+    .wearix-footer__top {
+        grid-template-columns: 1fr;
+    }
+    .wearix-footer__logo-col {
+        grid-column: span 1;
+    }
+    .wearix-footer__bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+"""
+
+    def render(self, settings, blocks):
+        return f'''
+<footer class="wearix-footer" role="contentinfo">
+  <div class="container">
+    <div class="wearix-footer__top">
+      <div class="wearix-footer__logo-col">
+        <a href="{{{{ routes.root_url }}}}" class="wearix-footer__logo">
+          {{% if section.settings.logo_image != blank %}}
+            <img src="{{{{ section.settings.logo_image | img_url: '300x' }}}}"
+                 alt="{{{{ section.settings.logo_text | escape }}}}"
+                 width="140" height="40">
+          {{% else %}}
+            {{{{ section.settings.logo_text | escape }}}}
+          {{% endif %}}
+        </a>
+        <p class="wearix-footer__desc">Premium wear for modern living. Crafted with intention, built to last.</p>
+      </div>
+
+      <div class="wearix-footer__column">
+        <h3 class="wearix-footer__column-title">{{{{ section.settings.column_1_title | escape }}}}</h3>
+        <ul class="wearix-footer__list">
+          {{% for link in section.settings.menu_1.links %}}
+            <li><a href="{{{{ link.url }}}}">{{{{ link.title | escape }}}}</a></li>
+          {{% endfor %}}
+        </ul>
+      </div>
+
+      <div class="wearix-footer__column">
+        <h3 class="wearix-footer__column-title">{{{{ section.settings.column_2_title | escape }}}}</h3>
+        <ul class="wearix-footer__list">
+          {{% for link in section.settings.menu_2.links %}}
+            <li><a href="{{{{ link.url }}}}">{{{{ link.title | escape }}}}</a></li>
+          {{% endfor %}}
+        </ul>
+      </div>
+
+      <div class="wearix-footer__column">
+        <h3 class="wearix-footer__column-title">{{{{ section.settings.column_3_title | escape }}}}</h3>
+        <ul class="wearix-footer__list">
+          {{% for link in section.settings.menu_3.links %}}
+            <li><a href="{{{{ link.url }}}}" target="_blank" rel="noopener">{{{{ link.title | escape }}}}</a></li>
+          {{% endfor %}}
+        </ul>
+      </div>
+
+      <div class="wearix-footer__column">
+        <h3 class="wearix-footer__column-title">{{{{ section.settings.column_4_title | escape }}}}</h3>
+        <ul class="wearix-footer__list">
+          {{% for link in section.settings.menu_4.links %}}
+            <li><a href="{{{{ link.url }}}}">{{{{ link.title | escape }}}}</a></li>
+          {{% endfor %}}
+        </ul>
+      </div>
+    </div>
+
+    {{% if section.settings.show_giant_logo %}}
+      <div class="wearix-footer__giant-logo" aria-hidden="true">
+        {{{{ section.settings.giant_logo_text | escape }}}}
+      </div>
+    {{% endif %}}
+
+    <div class="wearix-footer__bottom">
+      <p class="wearix-footer__copyright">{{{{ section.settings.copyright | escape }}}}</p>
+      {{% if section.settings.show_payment_icons %}}
+        <div class="wearix-footer__payments" aria-label="Accepted payment methods">
+          <span class="wearix-footer__payment-icon">VISA</span>
+          <span class="wearix-footer__payment-icon">MC</span>
+          <span class="wearix-footer__payment-icon">AMEX</span>
+          <span class="wearix-footer__payment-icon">PP</span>
+          <span class="wearix-footer__payment-icon">AP</span>
+        </div>
+      {{% endif %}}
+    </div>
+  </div>
+</footer>
+'''
+
+
+SectionRegistry.register(WearixFooterSection)
