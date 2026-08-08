@@ -1,0 +1,291 @@
+"""Footer section."""
+from ...core.section import Section, SectionPreset, SectionRegistry
+from ...core.setting import (
+    Text, Textarea, Checkbox, LinkList, ImagePicker, Header, Select,
+)
+
+
+class FooterSection(Section):
+    type = "footer"
+    name = "Footer"
+    tag = "footer"
+    class_name = "footer"
+    limit = 1
+    available_on = []  # Used in section group
+
+    settings = [
+        Header("Content"),
+        Text("heading", label="Footer heading", default=""),
+        Textarea("description", label="Footer description", default=""),
+        Header("Logo"),
+        ImagePicker("logo", label="Footer logo"),
+        Header("Newsletter"),
+        Checkbox("show_newsletter", label="Show newsletter signup", default=True),
+        Text("newsletter_heading", label="Newsletter heading", default="Subscribe to our newsletter"),
+        Header("Payment icons"),
+        Checkbox("show_payment_icons", label="Show payment icons", default=True),
+        Header("Social media"),
+        Checkbox("show_social", label="Show social links", default=True),
+        Header("Menus"),
+        LinkList("menu_1", label="Footer menu column 1", default="footer"),
+        LinkList("menu_2", label="Footer menu column 2"),
+        LinkList("menu_3", label="Footer menu column 3"),
+        Header("Copyright"),
+        Text("copyright_text", label="Copyright text", default="All rights reserved"),
+    ]
+
+    presets = [
+        SectionPreset(name="Footer", settings={
+            "show_newsletter": True,
+            "show_payment_icons": True,
+            "show_social": True,
+            "menu_1": "footer",
+        }),
+    ]
+
+    template = """
+<footer class="footer" {{ section.shopify_attributes }}>
+  <div class="footer__inner">
+    <div class="footer__top">
+      {%- if section.settings.show_newsletter -%}
+        <div class="footer__newsletter">
+          <h3 class="footer__newsletter-heading">{{ section.settings.newsletter_heading }}</h3>
+          {%- form 'customer', id: 'footer-newsletter' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input type="hidden" name="contact[accepts_marketing]" value="true">
+            <div class="footer__newsletter-form">
+              <input
+                type="email"
+                name="contact[email]"
+                placeholder="{{ 'general.newsletter.placeholder' | t }}"
+                required
+                class="form-field__input"
+                aria-label="{{ 'general.newsletter.email' | t }}"
+              >
+              <button type="submit" class="btn btn--primary">
+                {{ 'general.newsletter.subscribe' | t }}
+              </button>
+            </div>
+            {%- if form.posted_successfully? -%}
+              <p class="form-field__success">{{ 'general.newsletter.success' | t }}</p>
+            {%- endif -%}
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="footer__columns">
+      {%- if section.settings.logo -%}
+        <div class="footer__column footer__column--brand">
+          <a href="{{ routes.root_url }}" class="footer__logo">
+            {{ section.settings.logo | image_url: width: 150 | image_tag:
+              alt: shop.name | escape,
+              width: 120
+            }}
+          </a>
+          {%- if section.settings.description -%}
+            <p class="footer__description">{{ section.settings.description }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- for i in (1..3) -%}
+        {%- assign _menu_key = 'menu_' | append: i -%}
+        {%- assign _menu = section.settings[_menu_key] -%}
+        {%- if _menu and _menu.links.size > 0 -%}
+          <div class="footer__column">
+            <h4 class="footer__column-heading">{{ _menu.title }}</h4>
+            <ul class="footer__link-list">
+              {%- for link in _menu.links -%}
+                <li class="footer__link-item">
+                  <a href="{{ link.url }}" class="footer__link">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__copyright">
+        &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.copyright_text }}
+      </p>
+
+      {%- if section.settings.show_social -%}
+        <div class="footer__social" aria-label="{{ 'general.social_links' | t }}">
+          <a href="#" class="footer__social-link" aria-label="Facebook">{%- render 'icon-facebook' -%}</a>
+          <a href="#" class="footer__social-link" aria-label="Instagram">{%- render 'icon-instagram' -%}</a>
+          <a href="#" class="footer__social-link" aria-label="Twitter">{%- render 'icon-twitter' -%}</a>
+          <a href="#" class="footer__social-link" aria-label="TikTok">{%- render 'icon-tiktok' -%}</a>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_payment_icons -%}
+        <div class="footer__payment-icons">
+          {%- for type in shop.enabled_payment_types -%}
+            {{ type | payment_type_svg_tag: class: 'footer__payment-icon' }}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+    """
+
+    styles = """
+.footer {
+  background: var(--color-surface, #f5f5f5);
+  color: var(--color-text);
+  border-top: 1px solid var(--color-border, #eee);
+  margin-top: 4rem;
+}
+
+.footer__inner {
+  max-width: var(--max-width, 1440px);
+  margin: 0 auto;
+  padding: 3rem 1.5rem 2rem;
+}
+
+.footer__top {
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--color-border, #eee);
+  margin-bottom: 2rem;
+}
+
+.footer__newsletter {
+  max-width: 480px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer__newsletter-heading {
+  font-family: var(--font-heading-family);
+  font-size: 1.25rem;
+  margin: 0 0 1rem;
+}
+
+.footer__newsletter-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.footer__newsletter-form .form-field__input {
+  flex: 1;
+}
+
+.footer__columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer__column--brand {
+  grid-column: span 2;
+}
+
+.footer__logo {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.footer__logo img {
+  max-width: 120px;
+  height: auto;
+}
+
+.footer__description {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 300px;
+}
+
+.footer__column-heading {
+  font-family: var(--font-heading-family);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 1rem;
+}
+
+.footer__link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer__link {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footer__link:hover {
+  color: var(--color-text);
+}
+
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border, #eee);
+}
+
+.footer__copyright {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.footer__social {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.footer__social-link {
+  color: var(--color-text-muted);
+  transition: color 0.15s ease;
+}
+
+.footer__social-link:hover {
+  color: var(--color-text);
+}
+
+.footer__payment-icons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.footer__payment-icon {
+  width: 2.5rem;
+  height: auto;
+}
+
+@media (max-width: 767px) {
+  .footer__columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .footer__column--brand {
+    grid-column: span 2;
+  }
+  .footer__bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+    """
+
+
+SectionRegistry.register(FooterSection)

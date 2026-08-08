@@ -1,0 +1,182 @@
+"""
+Form component snippets: inputs, selects, checkboxes, quantity input.
+"""
+from ...core.snippet import Snippet, SnippetRegistry
+
+
+FORM_CSS = """
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-field__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  font-family: var(--font-body-family);
+}
+
+.form-field__input {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  font-family: var(--font-body-family);
+  font-size: 0.875rem;
+  color: var(--color-text);
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, #ddd);
+  border-radius: var(--radius-md, 6px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-field__input:focus {
+  outline: none;
+  border-color: var(--color-accent, #2563eb);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-field__input[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.form-field__error {
+  font-size: 0.75rem;
+  color: var(--color-error, #e53935);
+}
+
+/* Quantity input */
+.quantity-input {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--color-border, #ddd);
+  border-radius: var(--radius-md, 6px);
+  overflow: hidden;
+}
+
+.quantity-input__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--color-surface, #fff);
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--color-text);
+  transition: background 0.15s ease;
+}
+
+.quantity-input__btn:hover:not(:disabled) {
+  background: var(--color-background, #f5f5f5);
+}
+
+.quantity-input__btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.quantity-input__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.quantity-input__value {
+  width: 3rem;
+  text-align: center;
+  border: none;
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  height: 2.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  background: transparent;
+  -moz-appearance: textfield;
+}
+
+.quantity-input__value::-webkit-outer-spin-button,
+.quantity-input__value::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Select */
+.form-field__select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 12px;
+  padding-right: 2rem;
+}
+
+/* Checkbox */
+.form-field--checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-field__checkbox {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--color-accent, #2563eb);
+  cursor: pointer;
+}
+"""
+
+
+quantity_input = Snippet(
+    name="quantity-input",
+    template="""{% comment %}
+  Renders a quantity selector with +/- buttons.
+  Usage:
+    {% render 'quantity-input', id: 'quantity', value: 1, min: 1, max: 10, name: 'quantity' %}
+{% endcomment %}
+
+{%- assign _id = id | default: 'quantity' -%}
+{%- assign _value = value | default: 1 -%}
+{%- assign _min = min | default: 1 -%}
+{%- assign _max = max | default: 999999 -%}
+{%- assign _name = name | default: 'quantity' -%}
+
+<div class="quantity-input" data-quantity-input>
+  <button
+    type="button"
+    class="quantity-input__btn quantity-input__btn--decrease"
+    aria-label="{{ 'general.decrease_quantity' | t }}"
+    data-action="decrease"
+    {% if _value <= _min %}disabled{% endif %}
+  >
+    {%- render 'icon-minus' -%}
+  </button>
+  <input
+    type="number"
+    id="{{ _id }}"
+    name="{{ _name }}"
+    class="quantity-input__value"
+    value="{{ _value }}"
+    min="{{ _min }}"
+    max="{{ _max }}"
+    step="1"
+    aria-label="{{ 'general.quantity' | t }}"
+  >
+  <button
+    type="button"
+    class="quantity-input__btn quantity-input__btn--increase"
+    aria-label="{{ 'general.increase_quantity' | t }}"
+    data-action="increase"
+    {% if _value >= _max %}disabled{% endif %}
+  >
+    {%- render 'icon-plus' -%}
+  </button>
+</div>
+""",
+    params=["id", "value", "min", "max", "name"],
+    styles=FORM_CSS,
+)
+
+SnippetRegistry.register(quantity_input)

@@ -1,0 +1,141 @@
+# Legendary Theme Generator — Streetwear Example
+# Brand: Axiom (streetwear / street fashion vertical)
+#
+# This manifest produces a complete, upload-ready Shopify OS 2.0 theme.
+# Run: legendary generate examples/streetwear.yaml -o ./axiom-theme
+
+name: "Axiom"
+author: "Legendary Branding"
+version: "1.0.0"
+vertical: "streetwear"
+default_preset: 0
+
+presets:
+  - name: "Midnight"
+    palette:
+      primary: "#0A0A0A"
+      secondary: "#FFFFFF"
+      accent: "#FF4416"
+      background: "#0A0A0A"
+      surface: "#1A1A1A"
+      text: "#FFFFFF"
+      text_muted: "#A0A0A0"
+      border: "#2A2A2A"
+      success: "#34C759"
+      warning: "#FF9500"
+      error: "#FF3B30"
+    typography:
+      heading_font: "inter_n7"
+      body_font: "inter_n4"
+      base_font_size: 16
+      heading_scale: 1.25
+      body_line_height: 1.6
+    spacing:
+      base_unit: 4
+      section_padding: 80
+      grid_gap: 24
+
+  - name: "Bone"
+    palette:
+      primary: "#F4F1EA"
+      secondary: "#1A1A1A"
+      accent: "#2D5BFF"
+      background: "#F4F1EA"
+      surface: "#FFFFFF"
+      text: "#1A1A1A"
+      text_muted: "#6B6B6B"
+      border: "#E0DDD7"
+      success: "#34C759"
+      warning: "#FF9500"
+      error: "#FF3B30"
+    typography:
+      heading_font: "inter_n7"
+      body_font: "inter_n4"
+      base_font_size: 16
+      heading_scale: 1.25
+      body_line_height: 1.6
+    spacing:
+      base_unit: 4
+      section_padding: 80
+      grid_gap: 24
+
+features:
+  header:
+    style: "standard"
+    sticky: true
+    show_search: true
+    show_cart: true
+    show_account: true
+    announcement_bar: true
+
+  product:
+    card_style: "classic"
+    image_ratio: "adapt"
+    show_vendor: false
+    show_rating: false
+    quick_add: true
+    quick_view: false
+    sticky_add_to_cart: true
+    swatches: true
+    layout: "split"
+
+  cart:
+    style: "drawer"
+    ajax: true
+    show_savings: true
+    upsell_products: true
+
+  nav:
+    mobile_style: "drawer"
+    mega_menu: false
+    multi_level: 2
+
+  search:
+    predictive: false
+    show_images: true
+    show_prices: true
+    result_types: ["product", "collection", "page", "article"]
+
+  filters:
+    enabled: true
+    price_range: true
+    availability: true
+    product_type: true
+    vendor: true
+    variant_options: true
+
+  reviews: false
+  wishlist: false
+  compare: false
+  breadcrumbs: true
+  recently_viewed: false
+  countdown_timer: false
+  image_zoom: false
+  newsletter: true
+  social_icons: true
+
+performance:
+  lazy_load_images: true
+  preconnect_fonts: true
+  inline_critical_css: false
+  defer_non_critical_css: true
+  js_budget_kb: 15
+  css_budget_kb: 20
+  lcp_target_ms: 1800
+  cls_target: 0.02
+  image_dimensions_required: true
+  min_responsive_images: true
+
+accessibility:
+  skip_link: true
+  focus_outlines: true
+  reduced_motion: true
+  semantic_headings: true
+  landmark_roles: true
+  aria_labels: true
+  alt_text_required: true
+  color_contrast_check: true
+  keyboard_nav: true
+  screen_reader_text: true
+  form_labels: true
+  error_announcements: true
